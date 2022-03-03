@@ -65,14 +65,3 @@ fun NetworkVideoContainer.asDomainModel(): List<Video> {
     }
 }
 
-//converts from data transfer objects to database objects
-fun NetworkVideoContainer.asDatabaseModel(): Array<DatabaseVideo> {
-    return videos.map {
-        DatabaseVideo (
-            title = it.title,
-            description = it.description,
-            url = it.url,
-            updated = it.updated,
-            thumbnail = it.thumbnail)
-    }.toTypedArray()
-}
