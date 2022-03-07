@@ -17,6 +17,7 @@
 
 package com.example.android.devbyteviewer.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.example.android.devbyteviewer.database.VideosDatabase
@@ -36,8 +37,13 @@ class VideosRepository(private val videosDatabase: VideosDatabase)
     suspend fun refreshVideos()
     {
         withContext(Dispatchers.IO) {
-            val playList = Network.devbytes.getPlaylist().await()
-            videosDatabase.videoDao.insertAll(*playList.asDatabaseModel())
+            try {
+                val playList = Network.devbytes.getPlaylist().await()
+                videosDatabase.videoDao.insertAll(*playList.asDatabaseModel())
+            }
+            catch (e: Exception){
+                Log.d("no playlist","Updated playlist not available")
+            }
         }
     }
 }
